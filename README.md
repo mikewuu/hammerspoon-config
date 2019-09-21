@@ -1,25 +1,24 @@
 # Hammerspoon Config
 
-My config for Hammerspoon. For those that don't know, [Hammerspoon](hammerspoon.org) is a util that let's you write Lua scripts to control your mac.
+My config for Hammerspoon. For those that don't know, [Hammerspoon](hammerspoon.org) is a Mac util that let's you write Lua scripts to control your system.
 
-I'm using it with an MX Ergo and a custom keyboard.
+I'm using it with an MX Ergo and a custom keyboard to gain back functionality I lost from moving away from an Apple hardware.
 
 ## Right click + Trackball to Scroll
 
-Using a trackball mouse like the MX Ergo, and losing the Magic Mouse's scroll was a big deal for me. This gives me multi-directional scroll back.
+Switching to a trackball like the MX Ergo, and losing the Magic Mouse's scroll was a big deal for me. This gives me multi-directional scroll back.
 
 ## Custom Mouse Button Actions
 
-Logicool Options allowed my MX Ergo to have programmable buttons. I found it slow and it couldn't do everything I wanted. This let's me ditch Logicool, and I can even program the buttons to do different key-combos depending on the active app. 
+Logicool Options allowed my MX Ergo to have programmable buttons. I found it slow and it couldn't do everything I wanted. This let's me ditch Logicool, and allows me to program dynamic app-aware actions.
 
-For example: Mouse Button 4 does `cmd + ]` in every app, but `cmd + ctrl + ->` in XCode.
-
+Example: Mouse Button 4 does `cmd + ]` in every app, but `cmd + ctrl + ->` in XCode.
 
 ## F keys to Media Keys
 
 Wish you could control your mac media keys (play/pause, volume, brightness) using an external keyboard? Use this.
 
-I was previously using Karabiner Elements, which was excellent while it worked. Unforunately recent updates have consistently produced a key-stuck issue for my bluetooth keyboard.
+I was previously using Karabiner Elements, which is a terrific app that's more user-friendly than Hammerspoon. Unforunately recent updates have produced a consistent key-stuck issue for my keyboard.
 
 ## Global Shortcuts with Hyper Key
 
@@ -28,10 +27,10 @@ Let's you bind shortcuts in any app. Some shortcut examples:
 - launch/activate an app
 - map numbers to F keys
 - Launch spoons (hammerspoon modules)
-- Execute an apple script. I use it to start work, by launching a vm, ssh etc.
+- Execute an apple script. I use it to start work by launching a vm, ssh etc.
 
 
-## Shift Parenthis
+## Shift Parenthesis
 
 Inspired by QMK's tap-dance feature, tap shift for ()
 
