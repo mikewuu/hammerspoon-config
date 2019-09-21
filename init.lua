@@ -60,7 +60,9 @@ end
 -- CUSTOM MOUSE BUTTONS (back, forward, screenshot)
 
 customMouseClicks = hs.eventtap.new({ hs.eventtap.event.types.otherMouseDown }, function(e)
+
   local button = e:getProperty(hs.eventtap.event.properties.mouseEventButtonNumber)
+
   if (button == 2) then
     -- print screen
     hs.eventtap.keyStroke({"cmd","shift","ctrl"},"4", 10000)
@@ -291,6 +293,7 @@ end
 
 
 function clearShift() 
+  if sendShiftActionTimer then sendShiftActionTimer:stop() end
   shift = nil
   shiftCount = 0
 end
@@ -299,6 +302,12 @@ shiftListener:start()
 
 anyKeyClearShift = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, clearShift)
 anyKeyClearShift:start()
+
+clearShiftOnClick = hs.eventtap.new({ hs.eventtap.event.types.leftMouseDown, hs.eventtap.event.types.rightMouseDown }, function(e) 
+  clearShift()
+end)
+
+clearShiftOnClick:start()
 
 -- -- Example to check if app is currently activated
 -- function vsCodeActivated() 
