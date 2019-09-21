@@ -86,7 +86,7 @@ elseif (button == 4) then
   return false
 end)
 
--- FN to Media Keys
+-- F keys to Media Keys
 
 functionKeyToMedia = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, function(e)
   local keyCode = e:getKeyCode()
@@ -180,9 +180,6 @@ function exitHyperMode()
   hyper:exit()
   if not hyper.triggered then
     hs.eventtap.keyStroke({}, "ESCAPE", 10000)
-    -- hs.eventtap.event.newKeyEvent("ESCAPE", true):post()
-    -- hs.eventtap.event.newKeyEvent("ESCAPE", false):post() 
-
   end
 end
 
@@ -190,40 +187,7 @@ end
 f18 = hs.hotkey.bind({}, 'F18', enterHyperMode, exitHyperMode)
 
 
---- SHIFT Space cadet
-
--- shiftMode = hs.hotkey.modal.new({}, 'F16')
--- leftShift = false
--- shiftModeEnterTime = 0
-
--- function enterShiftMode()
---   shiftMode.triggered = false
---   shiftModeEnterTime = hs.timer.absoluteTime()
---   shiftMode:enter()
--- end
-
--- function exitShiftMode()
---   shiftMode:exit()
-
---   local now = hs.timer.absoluteTime()
---   local elapsed = now - shiftModeEnterTime
---   local minimumHoldDuration = 200000000 -- 200ms
-
---   if(elapsed < minimumHoldDuration) then
---     return
---   end
-
---   if not shiftMode.triggered then
---     if(leftShift) then
---       hs.eventtap.keyStroke({}, "[", 10000)
---     else
---       hs.eventtap.keyStroke({}, "]", 10000)
---   end
---   end
--- end
-
-
--- shift = hs.hotkey.bind({}, 'shift', enterShiftMode, exitShiftMode)
+--- SHIFT Parenthesis
 
 shift = nil
 shiftCount = 0
@@ -248,10 +212,6 @@ shiftListener = hs.eventtap.new({ hs.eventtap.event.types.flagsChanged }, functi
   local rightShift = rawFlags == 131332 and prevRawFlags == 256
   local releasedAll = rawFlags == 256
   local pressedShift = leftShift or rightShift or releasedAll
-
-  -- if (not (pressedShift)) then
-  --   return
-  -- end
   
   resetClearShiftTimer()
 
@@ -382,7 +342,6 @@ function open(name)
         end
     end
 end
-
 
 hyper:bind({}, "T", open("iTerm"))
 hyper:bind({}, "W", open("WebStorm"))
