@@ -221,12 +221,14 @@ shiftListener = hs.eventtap.new({ hs.eventtap.event.types.flagsChanged }, functi
       if(shift == 'left') then
         incrementShiftCount()
       else
+        if not(shift == null) then sendShiftAction() end
         startShiftCount("left")
       end
     elseif (rightShift) then
       if(shift == 'right') then
           incrementShiftCount()
         else
+          if not(shift == null) then sendShiftAction() end
           startShiftCount("right")
         end
     else    
