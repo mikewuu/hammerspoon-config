@@ -65,7 +65,7 @@ customMouseClicks = hs.eventtap.new({ hs.eventtap.event.types.otherMouseDown }, 
 
   if (button == 2) then
     -- print screen
-    hs.eventtap.keyStroke({"cmd","shift","ctrl"},"4", 10000)
+    hs.eventtap.keyStroke({"cmd","shift"},"4", 10000)
     return true
 elseif (button == 4) then
     -- go forward
@@ -191,125 +191,125 @@ f18 = hs.hotkey.bind({}, 'F18', enterHyperMode, exitHyperMode)
 
 --- SHIFT Parenthesis
 
-shift = nil
-shiftCount = 0
-prevRawFlags = 256
-sendShiftActionTimer = nil
-tappingTermSeconds = 0.2
-shiftActions = {}
-shiftActions["left"] = {
-  function() hs.eventtap.keyStroke({"shift"}, "9", 10000) end,    -- (
-  function() hs.eventtap.keyStroke({"shift"}, "[", 10000) end,    -- {
-  function() hs.eventtap.keyStroke({}, "[", 10000) end            -- [    
-}
-shiftActions["right"] = {
-  function() hs.eventtap.keyStroke({"shift"}, "0", 10000) end,    -- )
-  function() hs.eventtap.keyStroke({"shift"}, "]", 10000) end,    -- }
-  function() hs.eventtap.keyStroke({}, "]", 10000) end            -- ]    
-}
+-- shift = nil
+-- shiftCount = 0
+-- prevRawFlags = 256
+-- sendShiftActionTimer = nil
+-- tappingTermSeconds = 0.2
+-- shiftActions = {}
+-- shiftActions["left"] = {
+--   function() hs.eventtap.keyStroke({"shift"}, "9", 10000) end,    -- (
+--   function() hs.eventtap.keyStroke({"shift"}, "[", 10000) end,    -- {
+--   function() hs.eventtap.keyStroke({}, "[", 10000) end            -- [    
+-- }
+-- shiftActions["right"] = {
+--   function() hs.eventtap.keyStroke({"shift"}, "0", 10000) end,    -- )
+--   function() hs.eventtap.keyStroke({"shift"}, "]", 10000) end,    -- }
+--   function() hs.eventtap.keyStroke({}, "]", 10000) end            -- ]    
+-- }
 
-shiftListener = hs.eventtap.new({ hs.eventtap.event.types.flagsChanged }, function(e)
-  local rawFlags = e:getRawEventData().CGEventData.flags
-  local leftShift = rawFlags == 131330 and prevRawFlags == 256
-  local rightShift = rawFlags == 131332 and prevRawFlags == 256
-  local releasedAll = rawFlags == 256
-  local pressedShift = leftShift or rightShift or releasedAll
+-- shiftListener = hs.eventtap.new({ hs.eventtap.event.types.flagsChanged }, function(e)
+--   local rawFlags = e:getRawEventData().CGEventData.flags
+--   local leftShift = rawFlags == 131330 and prevRawFlags == 256
+--   local rightShift = rawFlags == 131332 and prevRawFlags == 256
+--   local releasedAll = rawFlags == 256
+--   local pressedShift = leftShift or rightShift or releasedAll
   
-  resetClearShiftTimer()
+--   resetClearShiftTimer()
 
-  if(leftShift) then    
-      if(shift == 'left') then
-        incrementShiftCount()
-      else
-        if not(shift == null) then sendShiftAction() end
-        startShiftCount("left")
-      end
-    elseif (rightShift) then
-      if(shift == 'right') then
-          incrementShiftCount()
-        else
-          if not(shift == null) then sendShiftAction() end
-          startShiftCount("right")
-        end
-    else    
-  end
+--   if(leftShift) then    
+--       if(shift == 'left') then
+--         incrementShiftCount()
+--       else
+--         if not(shift == null) then sendShiftAction() end
+--         startShiftCount("left")
+--       end
+--     elseif (rightShift) then
+--       if(shift == 'right') then
+--           incrementShiftCount()
+--         else
+--           if not(shift == null) then sendShiftAction() end
+--           startShiftCount("right")
+--         end
+--     else    
+--   end
 
-  if leftShift or rightShift then
-    resetActionTimer()
-  end
+--   if leftShift or rightShift then
+--     resetActionTimer()
+--   end
 
-  prevRawFlags = rawFlags
-end)
+--   prevRawFlags = rawFlags
+-- end)
 
-clearShiftTimer = null
+-- clearShiftTimer = null
 
-function resetClearShiftTimer() 
+-- function resetClearShiftTimer() 
 
-  if(clearActionTimer == null) then
-    clearActionTimer = hs.timer.doAfter(tappingTermSeconds, clearShift)
-    return  
-  end
+--   if(clearActionTimer == null) then
+--     clearActionTimer = hs.timer.doAfter(tappingTermSeconds, clearShift)
+--     return  
+--   end
 
-  clearActionTimer:stop()
-  clearActionTimer:start()
-end
+--   clearActionTimer:stop()
+--   clearActionTimer:start()
+-- end
 
-function startShiftCount(shiftVal)
-  shift = shiftVal
-  shiftCount = 1
-end
+-- function startShiftCount(shiftVal)
+--   shift = shiftVal
+--   shiftCount = 1
+-- end
 
-function incrementShiftCount() 
-  shiftCount = shiftCount + 1
-  checkMaxShiftCount()
-end
+-- function incrementShiftCount() 
+--   shiftCount = shiftCount + 1
+--   checkMaxShiftCount()
+-- end
 
-function checkMaxShiftCount() 
-  maxCount = #shiftActions[shift] == shiftCount
-  if(maxCount) then
-    sendShiftAction()
-  end
-end
+-- function checkMaxShiftCount() 
+--   maxCount = #shiftActions[shift] == shiftCount
+--   if(maxCount) then
+--     sendShiftAction()
+--   end
+-- end
 
-function sendShiftAction()
-  if not(shift) then
-    return
-  end
+-- function sendShiftAction()
+--   if not(shift) then
+--     return
+--   end
 
-  func =  shiftActions[shift][shiftCount]
-  if(func) then
-    func()
-  end
-  clearShift()
-end
+--   func =  shiftActions[shift][shiftCount]
+--   if(func) then
+--     func()
+--   end
+--   clearShift()
+-- end
 
-function resetActionTimer()
-  if(sendShiftActionTimer == null) then
-    sendShiftActionTimer = hs.timer.doAfter(tappingTermSeconds, sendShiftAction)
-    return  
-  end
+-- function resetActionTimer()
+--   if(sendShiftActionTimer == null) then
+--     sendShiftActionTimer = hs.timer.doAfter(tappingTermSeconds, sendShiftAction)
+--     return  
+--   end
 
-  sendShiftActionTimer:stop()
-  sendShiftActionTimer:start()
-end
+--   sendShiftActionTimer:stop()
+--   sendShiftActionTimer:start()
+-- end
 
 
-function clearShift() 
-  if sendShiftActionTimer then sendShiftActionTimer:stop() end
-  shift = nil
-  shiftCount = 0
-end
+-- function clearShift() 
+--   if sendShiftActionTimer then sendShiftActionTimer:stop() end
+--   shift = nil
+--   shiftCount = 0
+-- end
 
-shiftListener:start()
+-- shiftListener:start()
 
-anyKeyClearShift = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, clearShift)
-anyKeyClearShift:start()
+-- anyKeyClearShift = hs.eventtap.new({ hs.eventtap.event.types.keyDown }, clearShift)
+-- anyKeyClearShift:start()
 
-clearShiftOnClick = hs.eventtap.new({ hs.eventtap.event.types.leftMouseDown, hs.eventtap.event.types.rightMouseDown }, function(e) 
-  clearShift()
-end)
+-- clearShiftOnClick = hs.eventtap.new({ hs.eventtap.event.types.leftMouseDown, hs.eventtap.event.types.rightMouseDown }, function(e) 
+--   clearShift()
+-- end)
 
-clearShiftOnClick:start()
+-- clearShiftOnClick:start()
 
 -- -- Example to check if app is currently activated
 -- function vsCodeActivated() 
@@ -326,13 +326,13 @@ clearShiftOnClick:start()
 hs.loadSpoon("PopupTranslateSelection")
 
 hyper:bind({}, 'e', function()
-  spoon.PopupTranslateSelection:translateSelectionPopup('en')
   hyper.triggered = true
+  spoon.PopupTranslateSelection:translateSelectionPopup('en')
 end)
 
 hyper:bind({}, 'j', function()
-  spoon.PopupTranslateSelection:translateSelectionPopup('ja')
   hyper.triggered = true
+  spoon.PopupTranslateSelection:translateSelectionPopup('ja')  
 end)
 
 hyper:bind({}, "return", function()
@@ -351,6 +351,7 @@ function open(name)
         if name == 'Finder' then
             hs.appfinder.appFromName(name):activate()
         end
+        hyper.triggered = true
     end
 end
 
@@ -359,44 +360,57 @@ hyper:bind({}, "W", open("WebStorm"))
 hyper:bind({}, "P", open("PhpStorm"))
 hyper:bind({}, "C", open("Visual Studio Code"))
 hyper:bind({}, "M", open("Postman"))
+hyper:bind({}, "X", open("Xcode"))
 
 --- Number to F keys
 
 hyper:bind({}, "`", function()
   hs.eventtap.keyStroke({},"F1", 10000)
+  hyper.triggered = true
 end)
 hyper:bind({}, "1", function()
   hs.eventtap.keyStroke({},"F2", 10000)
+  hyper.triggered = true
 end)
 hyper:bind({}, "2", function()
   hs.eventtap.keyStroke({},"F3", 10000)
+  hyper.triggered = true
 end)
 hyper:bind({}, "3", function()
   hs.eventtap.keyStroke({},"F4", 10000)
+  hyper.triggered = true
 end)
 hyper:bind({}, "4", function()
   hs.eventtap.keyStroke({},"F5", 10000)
+  hyper.triggered = true
 end)
 hyper:bind({}, "5", function()
   hs.eventtap.keyStroke({},"F6", 10000)
+  hyper.triggered = true
 end)
-hyper:bind({}, "5", function()
+hyper:bind({}, "6", function()
   hs.eventtap.keyStroke({},"F7", 10000)
+  hyper.triggered = true
 end)
 hyper:bind({}, "7", function()
   hs.eventtap.keyStroke({},"F8", 10000)
+  hyper.triggered = true
 end)
 hyper:bind({}, "8", function()
   hs.eventtap.keyStroke({},"F9", 10000)
+  hyper.triggered = true
 end)
 hyper:bind({}, "9", function()
   hs.eventtap.keyStroke({},"F10", 10000)
+  hyper.triggered = true
 end)
 hyper:bind({}, "0", function()
   hs.eventtap.keyStroke({},"F11", 10000)
+  hyper.triggered = true
 end)
 hyper:bind({}, "-", function()
   hs.eventtap.keyStroke({},"F12", 10000)
+  hyper.triggered = true
 end)
 
 -- Avoid automatically setting a bluetooth audio input device
@@ -433,25 +447,38 @@ hyper:bind({}, "y", function()
     ]])
 
     hs.osascript.applescript([[
+      if application "Visual Studio Code" is not running then
+        activate application "Visual Studio Code"
+      end if
+    ]])
+
+    hs.osascript.applescript([[
       tell application "iTerm"
         activate
         create window with default profile
-        tell current session of current window
-          write text "cd ~/Homestead && vagrant up"
+        tell current window
+          create tab with default profile
         end tell
         tell current session of current window
-          write text "hshh"
-        end tell
-        tell current session of current window
-          write text "cd /home/vagrant/Code/yourmenu/restaurant/server"
+          write text "docker pull registry.gitlab.com/yourmenu/restaurant/server/app_dev"
+          write text "docker pull registry.gitlab.com/yourmenu/restaurant/server/nginx"
+          write text "cd ~/Code/yourmenu/restaurant/server"
+          write text "docker-compose -f Docker/dev/docker-compose.yml up && docker-compose -f Docker/dev/docker-compose.yml rm -fsv"
         end tell
         tell current window
           create tab with default profile
         end tell
         tell current session of current window
-          write text "cd /Users/mike/Code/yourmenu/restaurant/server"
+          write text "cd ~/Code/yourmenu/order/server && docker-compose -f Docker/dev/docker-compose.yml up && docker-compose -f Docker/dev/docker-compose.yml rm -fsv"
         end tell
+        tell current window
+          create tab with default profile
+        end tell
+        tell current session of current window
+          write text "cd ~/Code/yourmenu/order/server && npm run dev"
+        end tell                   
       end tell
     ]])
+    
     hyper.triggered = true
 end)
