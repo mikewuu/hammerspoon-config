@@ -4,6 +4,14 @@ My config for Hammerspoon. For those that don't know, [Hammerspoon](hammerspoon.
 
 I'm using it with an MX Ergo and a custom keyboard to gain back functionality I lost from moving away from an Apple hardware.
 
+## Install
+
+To install, clone into ~/.hammerspoon
+
+```
+git clone https://github.com/mikewudev/hammerspoon-config ~/.hammerspoon
+```
+
 ## Right click + Trackball to Scroll
 
 Switching to a trackball like the MX Ergo, and losing the Magic Mouse's scroll was a big deal for me. This gives me multi-directional scroll back.
